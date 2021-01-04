@@ -8,8 +8,18 @@ import ChatIcon from '@material-ui/icons/Chat'
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import WorkIcon from '@material-ui/icons/Work';
 import {Navbar, Nav} from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, selectUser } from './features/counter/userSlice';
+import { auth } from './firebase';
 
 function Header() {
+    const user = useSelector(selectUser)
+    const dispatch = useDispatch()
+    const handleLogout = () =>{
+        dispatch(logout())
+        auth.signOut()
+    }
+
     return (
         <div className="header">
             <Navbar collapseOnSelect expand="md" sticky="top" className="header_bar" >
@@ -36,7 +46,7 @@ function Header() {
                 <HeaderOption title="Messaging" Icon={ChatIcon}/>
                 <HeaderOption title="Notifications" Icon={NotificationsIcon}/>
 
-                <HeaderOption avatar="https://randomuser.me/api/portraits/women/23.jpg" title="Me"/>
+                <HeaderOption avatar = {true} title="Me" onClick={handleLogout}/>
             
             </Nav>
             

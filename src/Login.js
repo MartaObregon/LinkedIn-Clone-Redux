@@ -33,12 +33,27 @@ function Login() {
                   photoURL:profilePic,
               }))
           })
-      })          
+      }).catch((error) => alert(error))         
     }
+
+
     const handleLogin = (e) => {
         e.preventDefault();
 
+        auth.signInWithEmailAndPassword(email, password)
+        .then((userAuth => {
+            dispatch(login({
+                email:userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: userAuth.user.displayName,
+                photoURL: userAuth.user.photoURL,
+            }))
+        }))
+        .catch(error => alert(error))
+
     }
+
+    
 
     return (
         <div className="login">
@@ -50,7 +65,7 @@ function Login() {
 
             <input value= {profilePic} onChange={e=>setProfilePic(e.target.value)} type="text" placeholder="Profile pic URL (optional)"/>
 
-            <input  value= {email} onChange={e=> setEmail(e.target.value)} type="text" placeholder="Email"/>
+            <input  value= {email} onChange={e=> setEmail(e.target.value)} type="email" placeholder="Email"/>
 
             <input  value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Password"/>
 
